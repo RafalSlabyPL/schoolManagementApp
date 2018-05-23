@@ -1,11 +1,13 @@
 from django.shortcuts import render, HttpResponse
+from .form import RegisterForm
+from .models import User
 # Create your views here.
 
-def registerForm(request):
+def createUser(request):
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
-        form = basicForm(request.POST)
+        form = RegisterForm(request.POST)
         # check whether it's valid:
         if form.is_valid():
             newUserObj = User()
@@ -18,9 +20,10 @@ def registerForm(request):
 
     # if a GET (or any other method) we'll create a blank form
     else:
-        form = basicForm()
+        form = RegisterForm()
 
     return render(request, 'registerForm.html', {'form': form})
 
-def registerFormRender(request):
-    return render(request, 'registerForm.html')
+def registerForm(request):
+    #return render(request, 'mainSite.html')
+    return render(request, 'registerForm.html', {'form' : RegisterForm})
