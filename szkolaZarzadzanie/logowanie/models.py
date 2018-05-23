@@ -2,7 +2,8 @@ from django.db import models
 
 # Create your models here.
 
-class User(models.Model):
+class Student(models.Model):
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=20, blank=False)
     surname = models.CharField(max_length=20, blank=False)
     email = models.CharField(max_length=20, blank=False)
@@ -17,4 +18,21 @@ class User(models.Model):
     PESEL = models.IntegerField(blank=False)
 
     def __str__(self):
-        return str(self.email)
+        return str(self.name) + " " + str(self.surname)
+
+class Homework(models.Model):
+    contents = models.CharField(max_length=3000, blank=False)
+    #varriable student containt foreign key of sutent profile
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, blank=False)
+    grade = models.CharField(max_length=10, blank=True)
+    comment = models.CharField(max_length=1000, blank=True)
+    grade = models.FileField(blank=True)
+
+
+
+
+
+
+
+
+

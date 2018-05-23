@@ -1,4 +1,5 @@
 from django import forms
+from . import functions
 
 class RegisterForm(forms.Form):
     your_name = forms.CharField(
@@ -89,3 +90,34 @@ class RegisterForm(forms.Form):
         widget=forms.TextInput(attrs={'class': "form-control"})
     )
 
+    def clean_your_password2(self):
+        # Check that the two password entries match
+        password1 = self.cleaned_data.get("your_password1")
+        password2 = self.cleaned_data.get("your_password2")
+        email = self.cleaned_data.get("email")
+        if password1 and password2:
+            if password1 != password2:
+                raise forms.ValidationError("Passwords don't match")
+        return password2
+
+    def clean_your_email(self):
+        email = self.cleaned_data["email"]
+        if email and Student.objects.filter(email=email):
+            raise forms.ValidationError("This email has already been registered")
+        return email
+
+
+class LogInForm(forms.Form):
+    your_email = forms.EmailField(
+        label='Adres email',
+        max_length=50,
+        required=True,
+        widget=forms.TextInput(attrs={'class': "form-control"})
+    )
+
+    your_password = forms.CharField(
+        required=True,
+        widget=forms.PasswordInput(attrs={'placeholder': 'Password:', 'class': 'form-control'}),
+        label='Hasło',
+        max_length=30
+    )

@@ -1,0 +1,47 @@
+{% extends 'htmlHeadFrame.html' %}
+{% block content %}
+
+<body style="background-color: #ECECEC">
+    <div class="container logInContainer" style = "background-color:white" >
+
+        <div class="row">
+            <form action="/logowanie" class="register col-centered col-md-8 col-lg-8 col-sm-12 col-s-12" method="post">{% csrf_token %}
+                <div class = "page-header col col-md-12 col-lg-12 col-sm-12 col-s-12">
+                    <h2> Formularz logowania</h2>
+                </div>
+                {% for field in form %}
+                    {% if field.errors %}
+                        <div class="control-group error">
+                            <label class="control-label">{{ field.label }}</label>
+                            <div class="controls">{{ field }}
+                                <span class="help-inline">
+                                    {% for error in  field.errors %}{{ error }}{% endfor %}
+                                </span>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="form-group col col-md-12 col-lg-12 col-sm-12 col-s-12 col-centered">
+                            <label>{{ field.label }}</label>
+                            {{ field }}
+                            {% if field.help_text %}
+                                <p class="help-inline"><small>{{ field.help_text }}</small></p>
+                            {% endif %}
+
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary" >Zaloguj</button>
+                    <div class="float-right text-danger">
+                        {% if error %}
+                            {{error}}
+                        {% endif %}
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</body>
+
+{% endblock %}

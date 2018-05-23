@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponse, HttpResponseRedirect
-from .form import RegisterForm
-from .models import User
+from .form import RegisterForm, LogInForm
+from .models import Student
 # Create your views here.
 
 def register(request):
@@ -10,7 +10,7 @@ def register(request):
         form = RegisterForm(request.POST)
         # check whether it's valid:
         if form.is_valid():
-            newUserObj = User()
+            newUserObj = Student()
             newUserObj.name = form.cleaned_data['your_name']
             newUserObj.surname = form.cleaned_data['your_surname']
             newUserObj.email =form.cleaned_data['your_email']
@@ -30,8 +30,27 @@ def register(request):
 
 
 def registerForm(request):
-    #return render(request, 'mainSite.html')
+    #return render(request, 'htmlHeadFrame.html')
     return render(request, 'registerForm.html', {'form' : RegisterForm})
 
 def dziala(request):
     return HttpResponse("<h1>Zadzialalo</h1>")
+
+def studentPanel(request):
+    return render(request, 'studentPanel.html')
+
+def logIn(request):
+    if request.method == 'POST':
+        form = LogInForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['your_email']
+            password = form.cleaned_data['your_password']
+            if Student.objects.filter(email=email, password=password).exists():
+                return HttpResponseRedirect("panel")
+            else:
+                return render(request, "logInForm.html", {'form': LogInForm, 'error' : 'Podany email i hasło nie pasują do żadnego użytkownika'})
+        else:
+            return render(request, "logInForm.html", {'form': LogInForm, 'error' : 'Podany mail nie jest poprawny'})
+
+    else:
+        return render(request, "logInForm.html", {'form' : LogInForm})
