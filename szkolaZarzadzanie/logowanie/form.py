@@ -4,18 +4,18 @@ class RegisterForm(forms.Form):
     your_name = forms.CharField(
         label='Imię',
         max_length=20,
-        required=False,
+        required=True,
         help_text="",
         widget=forms.TextInput(attrs={'class': "form-control"}))
     your_surname = forms.CharField(
         label='Nazwisko',
         max_length=20,
-        required=False,
+        required=True,
         widget = forms.TextInput(attrs={'class': "form-control"}))
     your_email = forms.EmailField(
         label='Adres email',
         max_length=50,
-        required=False,
+        required=True,
         help_text="Nie udostępniamy emaili osobom 3. Są one używane wyłącznie na potrzeby kontaktu ze studentem oraz\
         wysyłania istotnich informacji.",
         widget=forms.TextInput(attrs={'class': "form-control"})
@@ -31,11 +31,11 @@ class RegisterForm(forms.Form):
         widget=forms.PasswordInput(attrs={'placeholder': 'Password:', 'class': 'form-control'}),
         label='Powtórz hasło',
         max_length=30,
-        required=False)
+        required=True)
     your_phoneNumber = forms.CharField(
         label='Numer telefonu',
         max_length=30,
-        required=False,
+        required=True,
         widget=forms.TextInput(attrs={'class': "form-control"})
     )
     your_city = forms.CharField(
@@ -53,23 +53,23 @@ class RegisterForm(forms.Form):
     your_postalCode = forms.CharField(
         label='Kod pocztowy',
         max_length=10,
-        required=False,
+        required=True,
         widget=forms.TextInput(attrs={'class': "form-control"})
     )
     your_street = forms.CharField(
         label='Ulica',
         max_length=100,
-        required= False,
+        required= True,
         widget=forms.TextInput(attrs={'class': "form-control"})
     )
     your_homeNumber = forms.IntegerField(
         label='Numer domu',
-        required=False,
+        required=True,
         widget=forms.TextInput(attrs={'class': "form-control"})
     )
     your_apartmentNumber = forms.IntegerField(
         label='Numer mieszkania',
-        required=True,
+        required=False,
         widget=forms.TextInput(attrs={'class': "form-control"})
     )
     your_PESEL = forms.IntegerField(
