@@ -56,28 +56,33 @@ class RegisterForm(forms.Form):
         required=True,
         widget=forms.TextInput(attrs={'class': "form-control"})
     )
+
     your_postalCode = forms.CharField(
         label='Kod pocztowy',
         max_length=10,
         required=True,
         widget=forms.TextInput(attrs={'class': "form-control"})
     )
+
     your_street = forms.CharField(
         label='Ulica',
         max_length=100,
         required= True,
         widget=forms.TextInput(attrs={'class': "form-control"})
     )
+
     your_homeNumber = forms.IntegerField(
         label='Numer domu',
         required=True,
         widget=forms.TextInput(attrs={'class': "form-control"})
     )
+
     your_apartmentNumber = forms.IntegerField(
         label='Numer mieszkania',
         required=False,
         widget=forms.TextInput(attrs={'class': "form-control"})
     )
+
     your_PESEL = forms.IntegerField(
         label='Pesel',
         required=False,
