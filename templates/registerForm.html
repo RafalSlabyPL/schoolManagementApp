@@ -1,3 +1,6 @@
+{% extends 'mainSite.html' %}
+{% block content %}
+
 <form class="register" method="post">{% csrf_token %}
     <fieldset>
         <legend>{{ title }}</legend>
@@ -27,3 +30,4 @@
         <button type="submit" class="btn btn-primary" >Submit</button>
     </div>
 </form>
+{% endblock %}
