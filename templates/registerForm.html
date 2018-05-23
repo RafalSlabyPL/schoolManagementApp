@@ -1,32 +1,32 @@
 {% extends 'mainSite.html' %}
 
 {% block content %}
-
-<form  action="/rejestruj" class="register" method="post">{% csrf_token %}
-        {% for field in form %}
-            {% if field.errors %}
-                <div class="control-group error">
-                    <label class="control-label">{{ field.label }}</label>
-                    <div class="controls">{{ field }}
-                        <span class="help-inline">
-                            {% for error in  field.errors %}{{ error }}{% endfor %}
-                        </span>
+<div class="row">
+    <form  action="/rejestruj" class="register" method="post">{% csrf_token %}
+            {% for field in form %}
+                {% if field.errors %}
+                    <div class="control-group error">
+                        <label class="control-label">{{ field.label }}</label>
+                        <div class="controls">{{ field }}
+                            <span class="help-inline">
+                                {% for error in  field.errors %}{{ error }}{% endfor %}
+                            </span>
+                        </div>
                     </div>
-                </div>
-            {% else %}
-                <div class="form-group">
-                    <label>{{ field.label }}</label>
-                    {{ field }}
-                    {% if field.help_text %}
-                        <p class="help-inline"><small>{{ field.help_text }}</small></p>
-                    {% endif %}
+                {% else %}
+                    <div class="form-group col-md-4">
+                        <label>{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.help_text %}
+                            <p class="help-inline"><small>{{ field.help_text }}</small></p>
+                        {% endif %}
 
-                </div>
-            {% endif %}
-        {% endfor %}
-    <div class="form-actions">
-        <button type="submit" class="btn btn-primary" >Zapisuje się!</button>
-    </div>
-</form>
-
+                    </div>
+                {% endif %}
+            {% endfor %}
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary" >Zapisuje się!</button>
+        </div>
+    </form>
+</div>
 {% endblock %}

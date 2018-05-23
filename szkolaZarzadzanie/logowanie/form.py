@@ -7,11 +7,13 @@ class RegisterForm(forms.Form):
         required=True,
         help_text="",
         widget=forms.TextInput(attrs={'class': "form-control"}))
+
     your_surname = forms.CharField(
         label='Nazwisko',
         max_length=20,
         required=True,
         widget = forms.TextInput(attrs={'class': "form-control"}))
+
     your_email = forms.EmailField(
         label='Adres email',
         max_length=50,
@@ -27,25 +29,29 @@ class RegisterForm(forms.Form):
         label='Hasło',
         max_length=30,
     )
+
     your_password2 = forms.CharField(
         widget=forms.PasswordInput(attrs={'placeholder': 'Password:', 'class': 'form-control'}),
         label='Powtórz hasło',
         max_length=30,
         required=True)
+
     your_phoneNumber = forms.CharField(
         label='Numer telefonu',
         max_length=30,
         required=True,
         widget=forms.TextInput(attrs={'class': "form-control"})
     )
-    your_city = forms.CharField(
-        label='Miasto',
+
+    your_region = forms.CharField(
+        label='Województwo',
         max_length=30,
         required=True,
         widget=forms.TextInput(attrs={'class': "form-control"})
     )
-    your_region = forms.CharField(
-        label='Województwo',
+
+    your_city = forms.CharField(
+        label='Miasto',
         max_length=30,
         required=True,
         widget=forms.TextInput(attrs={'class': "form-control"})
