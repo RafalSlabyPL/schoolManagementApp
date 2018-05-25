@@ -1,6 +1,8 @@
 from django.shortcuts import render, HttpResponse, HttpResponseRedirect
 from .form import RegisterForm, LogInForm
-from .models import Student
+from .models import Student, Admin
+from szkolaZarzadzanie.szkolaZarzadzanie.settings import adminKey
+
 
 def register(request):
     # if this is a POST request we need to process the form data
@@ -23,7 +25,7 @@ def register(request):
             newUserObj.apartmentNumber = form.cleaned_data['your_apartmentNumber']
             newUserObj.PESEL = form.cleaned_data['your_PESEL']
             newUserObj.save()
-            return HttpResponseRedirect('dziala')
+            return HttpResponseRedirect('logowanie')
         else:
             return HttpResponse(form.errors)
     else:
@@ -40,12 +42,15 @@ def logIn(request):
                 password = form.cleaned_data['your_password']
                 if Student.objects.filter(email=email, password=password).exists():
                     request.session['email'] = email
-                    return HttpResponseRedirect("panel")
+                    if Admin.objects.filter(email=email, password=password).exists():
+                        request.session["admin"] = adminKey
+                        return HttpResponseRedirect("adminPanel")
+                    else:
+                        return HttpResponseRedirect("panel")
                 else:
                     return render(request, "logInForm.html", {'form': LogInForm, 'error' : 'Podany email i hasło nie pasują do żadnego użytkownika'})
             else:
                 return render(request, "logInForm.html", {'form': LogInForm, 'error' : 'Podany mail nie jest poprawny'})
-
         else:
             return render(request, "logInForm.html", {'form' : LogInForm})
     return HttpResponseRedirect("panel")
@@ -56,22 +61,3 @@ def logOut(request):
     except KeyError:
         return HttpResponseRedirect("logowanie")
     return HttpResponseRedirect("logowanie")
-
-def studentPanel(request):
-    try:
-        temp = request.session["email"]
-    except KeyError:
-        return HttpResponseRedirect("logowanie")
-    loggedStudent = Student.objects.get(email=request.session["email"])
-
-    return render(request, 'studentPanel.html', {'student' : loggedStudent})
-
-def oceny(request):
-    try:
-        temp = request.session["email"]
-    except KeyError:
-        return HttpResponseRedirect("logowanie")
-    loggedStudent = Student.objects.get(email=request.session["email"])
-    return render(request, 'studentPanelOceny.html', {'student' : loggedStudent})
-
-
