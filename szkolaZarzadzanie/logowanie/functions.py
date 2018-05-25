@@ -7,3 +7,6 @@ def validateEmail( email ):
         return True
     except ValidationError:
         return False
+
+def createUser():
+    pass

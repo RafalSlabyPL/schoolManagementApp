@@ -1,7 +1,6 @@
 from django.shortcuts import render, HttpResponse, HttpResponseRedirect
 from .form import RegisterForm, LogInForm
 from .models import Student
-# Create your views here.
 
 def register(request):
     # if this is a POST request we need to process the form data
@@ -27,30 +26,52 @@ def register(request):
             return HttpResponseRedirect('dziala')
         else:
             return HttpResponse(form.errors)
-
-
-def registerForm(request):
-    #return render(request, 'htmlHeadFrame.html')
-    return render(request, 'registerForm.html', {'form' : RegisterForm})
-
-def dziala(request):
-    return HttpResponse("<h1>Zadzialalo</h1>")
-
-def studentPanel(request):
-    return render(request, 'studentPanel.html')
+    else:
+        return render(request, 'registerForm.html', {'form': RegisterForm})
 
 def logIn(request):
-    if request.method == 'POST':
-        form = LogInForm(request.POST)
-        if form.is_valid():
-            email = form.cleaned_data['your_email']
-            password = form.cleaned_data['your_password']
-            if Student.objects.filter(email=email, password=password).exists():
-                return HttpResponseRedirect("panel")
+    try:
+        a = request.session["email"]
+    except KeyError:
+        if request.method == 'POST':
+            form = LogInForm(request.POST)
+            if form.is_valid():
+                email = form.cleaned_data['your_email']
+                password = form.cleaned_data['your_password']
+                if Student.objects.filter(email=email, password=password).exists():
+                    request.session['email'] = email
+                    return HttpResponseRedirect("panel")
+                else:
+                    return render(request, "logInForm.html", {'form': LogInForm, 'error' : 'Podany email i hasło nie pasują do żadnego użytkownika'})
             else:
-                return render(request, "logInForm.html", {'form': LogInForm, 'error' : 'Podany email i hasło nie pasują do żadnego użytkownika'})
-        else:
-            return render(request, "logInForm.html", {'form': LogInForm, 'error' : 'Podany mail nie jest poprawny'})
+                return render(request, "logInForm.html", {'form': LogInForm, 'error' : 'Podany mail nie jest poprawny'})
 
-    else:
-        return render(request, "logInForm.html", {'form' : LogInForm})
+        else:
+            return render(request, "logInForm.html", {'form' : LogInForm})
+    return HttpResponseRedirect("panel")
+
+def logOut(request):
+    try:
+        del request.session["email"]
+    except KeyError:
+        return HttpResponseRedirect("logowanie")
+    return HttpResponseRedirect("logowanie")
+
+def studentPanel(request):
+    try:
+        temp = request.session["email"]
+    except KeyError:
+        return HttpResponseRedirect("logowanie")
+    loggedStudent = Student.objects.get(email=request.session["email"])
+
+    return render(request, 'studentPanel.html', {'student' : loggedStudent})
+
+def oceny(request):
+    try:
+        temp = request.session["email"]
+    except KeyError:
+        return HttpResponseRedirect("logowanie")
+    loggedStudent = Student.objects.get(email=request.session["email"])
+    return render(request, 'studentPanelOceny.html', {'student' : loggedStudent})
+
+
