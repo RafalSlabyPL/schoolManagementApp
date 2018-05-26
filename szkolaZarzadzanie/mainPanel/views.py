@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponseRedirect
-from szkolaZarzadzanie.logowanie.models import Admin, Student
-from szkolaZarzadzanie.szkolaZarzadzanie.settings import adminKey
+from logowanie.models import Admin, Student
+from szkolaZarzadzanie.settings import adminKey
 
 def adminPanel(request):
     try:

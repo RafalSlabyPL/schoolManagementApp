@@ -7,6 +7,4 @@ urlpatterns = [
     path('rejestruj', views.register, name="rejestruj"),
     path('logowanie', views.logIn, name="login"),
     path('wylogowywanie', views.logOut, name="logout"),
-    path('', views.studentPanel, name="rejestruj"),
-
 ]

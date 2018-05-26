@@ -15,12 +15,12 @@ class Student(models.Model):
     homeNumber = models.IntegerField(blank=False)
     apartmentNumber = models.IntegerField(blank=True)
     PESEL = models.IntegerField(blank=False)
+
     #registrationDate = models.DateTimeField(blank=True) # uzupelnic
     #miastoZajec = models.CharField(max_length=20, blank=False)
-    nameAndSurname = str(name) + " " + str(surname)
 
     def __str__(self):
-        return str(self.name) + " " + str(self.surname)
+        return str(self.name) + " " + str(self.surname) +" "+ str(self.email)
 
 
 class Admin(Student):
@@ -42,6 +42,7 @@ class PaymentHistory(models.Model):
     id = models.AutoField(primary_key=True)
     student = models.ForeignKey(Student, on_delete=models.CASCADE, blank=False)
 
+
 class SinglePayment(models.Model):
     id = models.AutoField(primary_key=True)
     date = models.DateTimeField(blank=True) # uzupelnic
@@ -49,20 +50,39 @@ class SinglePayment(models.Model):
     paymentID = models.CharField(max_length=50)
     paymentHistory = models.ForeignKey(PaymentHistory, on_delete=models.CASCADE, blank=False)
 
-class StudentsGrades(models.Model):
-    id = models.AutoField(primary_key=True)
-    student = models.ForeignKey(Student, on_delete=models.CASCADE, blank=False)
 
 class SingleGrade(models.Model):
     id = models.AutoField(primary_key=True)
     grade = models.CharField(max_length=50, blank=False)
-    StudentsGrades =  models.ForeignKey(StudentsGrades, on_delete=models.CASCADE, blank=False)
+
+    def __str__(self):
+        return str(self.grade)
 
 
-class Subject(models.Model):
+class StudentsGrades(models.Model):
     id = models.AutoField(primary_key=True)
+    StudentsGrades =  models.ForeignKey(SingleGrade, on_delete=models.CASCADE, blank=False, default=1)
+    Student = models.ForeignKey(Student,on_delete=models.CASCADE, blank=False, default=1)
+
+
+class Course(models.Model):
+    id = models.AutoField(primary_key=True)
+    students = models.ManyToManyField(Student)
     name = models.CharField(max_length=100)
     teacher = models.CharField(max_length=150)
+    studentsGrades = models.ForeignKey(StudentsGrades,on_delete=models.CASCADE, blank=False, default=1)
+
+    def __str__(self):
+        return str(self.name)
+
+    def returnCoursName(self):
+        return self.name
+
+
+
+
+
+
 
 
 

@@ -15,14 +15,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from szkolaZarzadzanie.mainPanel.views import adminPanel, studentPanel
-from szkolaZarzadzanie.grades.views import studentGrades, adminGrades
+from grades.views import studentGrades, adminGrades
+from mainPanel.views import adminPanel, studentPanel
+from courses.views import adminCourses, studentCourses
+
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('adminPanel', adminPanel, name="adminPanel"),
-    path('panel', studentPanel, name="panel"),
+    path('adminPanelPrzedmioty', adminCourses, name="rejestruj"),
     path('adminPanelOceny', adminGrades, name="rejestruj"),
+    path('adminPanel', adminPanel, name="adminPanel"),
+    path('admin/', admin.site.urls),
+    path('panel', studentPanel, name="panel"),
+    path('panelKursy', studentCourses, name="panelCourses"),
     path('oceny', studentGrades, name="oceny"),
     path('', include('logowanie.urls')),
 ]

@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponseRedirect
-from szkolaZarzadzanie.logowanie.models import Student, Admin
-from szkolaZarzadzanie.szkolaZarzadzanie.settings import adminKey
+from logowanie.models import Student, Admin
+from szkolaZarzadzanie.settings import adminKey
 
 def adminGrades(request):
     try:

@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponse, HttpResponseRedirect
 from .form import RegisterForm, LogInForm
-from .models import Student, Admin
-from szkolaZarzadzanie.szkolaZarzadzanie.settings import adminKey
+from .models import Student, Admin, StudentsGrades
+from szkolaZarzadzanie.settings import adminKey
 
 
 def register(request):
@@ -25,6 +25,11 @@ def register(request):
             newUserObj.apartmentNumber = form.cleaned_data['your_apartmentNumber']
             newUserObj.PESEL = form.cleaned_data['your_PESEL']
             newUserObj.save()
+            #newStudentsGradesObj = StudentsGrades()
+            #newStudentsGradesObj.Student = Student.objects.get(email=newUserObj.email)
+            #newStudentsGradesObj.save()
+
+
             return HttpResponseRedirect('logowanie')
         else:
             return HttpResponse(form.errors)
